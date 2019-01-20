@@ -1,0 +1,4 @@
+listen : ":9112"     # Port for the http Server to listen on 
+probetime: 15        # How often the Metrics are updated
+apikey : "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" # Your Octoprint API Key found in the WebInterface
+octopi : "octopi.local"
