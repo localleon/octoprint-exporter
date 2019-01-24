@@ -1,0 +1,46 @@
+---
+- hosts: monitoring.virt.lan
+  remote_user: pi
+  become: yes
+  become_method: sudo
+
+  vars:
+    build_path: ./octoprint-exporter-linux-arm.bin
+    service_path: ./octoprint-exporter.service
+    config_path: ./config.yaml
+
+  tasks:
+    - name: Creates directory
+      file:
+        path: /opt/octoprint/
+        state: directory
+
+    - name: copying binary to remote 
+      copy:
+        src:  "{{build_path}}"
+        dest:   "/opt/octoprint/octoprint.bin"
+        owner: root
+        group: root
+        mode: 0755
+    
+    - name: copying config file to remote 
+      copy:
+        src:  "{{config_path}}"
+        dest:   "/opt/octoprint/config.yaml"
+
+    - name: copying systemd-service file to remote
+      copy:
+        src:  "{{service_path}}"
+        dest:   "/etc/systemd/system/octoprint-exporter.service"
+
+    - name: just force systemd to reread configs 
+      systemd:
+        daemon_reload: yes
+
+    - name: enable service octoprint-service and restart
+      systemd:
+        name: octoprint-exporter
+        enabled: yes
+        state: restarted
+
+      
