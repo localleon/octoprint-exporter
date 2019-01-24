@@ -4,39 +4,76 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
-//Define a struct for you collector that contains pointers
-//to prometheus descriptors for each metric you wish to expose.
-//Note you can also include fields of other types if they provide utility
-//but we just won't be exposing them as metrics.
+//Defines a struct for the collector that contains pointers
 type JobCollector struct {
+	printTimeLeft      *prometheus.Desc
+	progress           *prometheus.Desc
+	printTime          *prometheus.Desc
 	estimatedPrintTime *prometheus.Desc
+	status             *prometheus.Desc
 }
 
-//You must create a constructor for you collector that
 //initializes every descriptor and returns a pointer to the collector
 func newJobCollector() *JobCollector {
 	return &JobCollector{
-		estimatedPrintTime: prometheus.NewDesc("octoprint_estimated_print_time",
+		printTimeLeft: prometheus.NewDesc("octoprint_print_time_left",
 			"Returns the estimated print time of the current job",
+			nil, nil,
+		),
+
+		progress: prometheus.NewDesc("octoprint_progress",
+			"Progress State of the Current Job",
+			nil, nil,
+		),
+		printTime: prometheus.NewDesc("octoprint_print_time",
+			"printTime of Octoprint",
+			nil, nil,
+		),
+		estimatedPrintTime: prometheus.NewDesc("octoprint_estimated_print_time",
+			"estimatedPrintTime from Octoprint",
+			nil, nil,
+		),
+		status: prometheus.NewDesc("octoprint_status",
+			"estimatedPrintTime from Octoprint",
 			nil, nil,
 		),
 	}
 }
 
-//Each and every collector must implement the Describe function.
 //It essentially writes all descriptors to the prometheus desc channel.
 func (collector *JobCollector) Describe(ch chan<- *prometheus.Desc) {
-
-	//Update this section with the each metric you create for a given collector
+	ch <- collector.printTimeLeft
+	ch <- collector.progress
+	ch <- collector.printTime
 	ch <- collector.estimatedPrintTime
+	ch <- collector.status
 }
 
 //Collect implements required collect function for all promehteus collectors
 func (collector *JobCollector) Collect(ch chan<- prometheus.Metric) {
-	//Implement logic here to determine proper metric value to return to prometheus
-	//for each descriptor or call other functions that do so.
+	// Get Infos about the current Job from the Octoprint-API
+	infos := apiGetJobInfo()
 
-	//Write latest value for each metric in the prometheus metric channel.
-	//Note that you can pass CounterValue, GaugeValue, or UntypedValue types here.
-	ch <- prometheus.MustNewConstMetric(collector.estimatedPrintTime, prometheus.GaugeValue, apiJobProgress())
+	switch infos.State {
+	case "Printing from SD":
+		ch <- prometheus.MustNewConstMetric(collector.status, prometheus.GaugeValue, 2)
+		// Update Printing Metrics
+		ch <- prometheus.MustNewConstMetric(collector.estimatedPrintTime, prometheus.GaugeValue, float64(infos.Job.EstimatedPrintTime))
+		ch <- prometheus.MustNewConstMetric(collector.printTime, prometheus.GaugeValue, float64(infos.Progress.PrintTime))
+		ch <- prometheus.MustNewConstMetric(collector.printTimeLeft, prometheus.GaugeValue, float64(infos.Progress.PrintTimeLeft))
+		ch <- prometheus.MustNewConstMetric(collector.progress, prometheus.GaugeValue, infos.Progress.Completion)
+	case "Printing":
+		ch <- prometheus.MustNewConstMetric(collector.status, prometheus.GaugeValue, 3)
+		// Update Printing Metrics
+		// Update Printing Metrics
+		ch <- prometheus.MustNewConstMetric(collector.estimatedPrintTime, prometheus.GaugeValue, float64(infos.Job.EstimatedPrintTime))
+		ch <- prometheus.MustNewConstMetric(collector.printTime, prometheus.GaugeValue, float64(infos.Progress.PrintTime))
+		ch <- prometheus.MustNewConstMetric(collector.printTimeLeft, prometheus.GaugeValue, float64(infos.Progress.PrintTimeLeft))
+		ch <- prometheus.MustNewConstMetric(collector.progress, prometheus.GaugeValue, infos.Progress.Completion)
+	case "Operational":
+		ch <- prometheus.MustNewConstMetric(collector.status, prometheus.GaugeValue, 1)
+	default:
+		ch <- prometheus.MustNewConstMetric(collector.status, prometheus.GaugeValue, 0)
+	}
+
 }
