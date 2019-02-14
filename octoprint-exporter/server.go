@@ -12,7 +12,7 @@ import (
 	yaml "gopkg.in/yaml.v2"
 )
 
-// Structure for our config.yaml
+//Conf is a struct for our config-file
 type Conf struct {
 	Listen    string
 	Apikey    string

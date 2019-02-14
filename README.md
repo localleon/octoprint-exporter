@@ -2,13 +2,18 @@
 ### OctoPrint Exporter for Prometheus written in Golang
 
 ## Metrics
-Metrics are exposed under :9112/metrics and start with the prefix "octoprint" . The Metrics are a replicate from the octoprint API
+Metrics are exposed under :9112/metrics and start with the prefix "octoprint" . The Metrics are a replicate from the Octoprint REST API
+
+#### Metrics featured: 
+- Temperature 
+- PrintTime Stats about current Job 
+- Print Progress
 
 #### octoprint_status
-0 == Unknown
-1 == Operational
-2 == Printing from SD
-3 == Printing
+- 0 == Unknown
+- 1 == Operational
+- 2 == Printing from SD
+- 3 == Printing
 
 ## Deploying 
 1. Use Ansible 
@@ -20,7 +25,6 @@ Metrics are exposed under :9112/metrics and start with the prefix "octoprint" . 
     - Copy the binary and the example-config file to your remote server
     - Copy the systemd-service file to /etc/systemd/system/
     - Use ```systemctl``` to enable the Service
-
 
 ## Contributing 
 - Pull-requests and bug reports wanted !
