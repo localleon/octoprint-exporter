@@ -26,7 +26,7 @@ func apiGetPrinterInfo() PrinterInfoJSON {
 	return infos
 }
 
-// PrinterInfoJSON represents the JSON Response from this Octoprint API Endpoint
+//PrinterInfoJSON represents the JSON Response from this Octoprint API Endpoint
 type PrinterInfoJSON struct {
 	Sd struct {
 		Ready bool `json:"ready"`
@@ -64,7 +64,7 @@ func apiGetJobInfo() JobInfoJSON {
 	return infos
 }
 
-// JobInfoJSON represents the JSON Response from this Octoprint API Endpoint
+//JobInfoJSON represents the JSON Response from this Octoprint API Endpoint
 type JobInfoJSON struct {
 	Job struct {
 		AveragePrintTime   interface{} `json:"averagePrintTime"`

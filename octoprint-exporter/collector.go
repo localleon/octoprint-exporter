@@ -4,7 +4,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
-//Defines a struct for the collector that contains pointers
+//JobCollector defines a struct for the collector that contains pointers to the Metrics
 type JobCollector struct {
 	printTimeLeft      *prometheus.Desc
 	progress           *prometheus.Desc
@@ -64,7 +64,7 @@ func newJobCollector() *JobCollector {
 	}
 }
 
-//It essentially writes all descriptors to the prometheus desc channel.
+//Describe essentially writes all descriptors to the prometheus desc channel.
 func (collector *JobCollector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- collector.printTimeLeft
 	ch <- collector.progress
@@ -115,7 +115,6 @@ func (collector *JobCollector) Collect(ch chan<- prometheus.Metric) {
 func boolToBin(a bool) float64 {
 	if a {
 		return 1
-	} else {
-		return 0
 	}
+	return 0
 }
