@@ -7,7 +7,45 @@ import (
 	"net/http"
 )
 
-func apiGetJobInfo() JobInfoJson {
+func apiGetPrinterInfo() PrinterInfoJSON {
+	// Call API for job information
+	apiurl := "http://" + c.Octopi + "/api/printer?exclude=state"
+	// Create Request with correct headers for authorization
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", apiurl, nil)
+	req.Header.Add("X-Api-Key", c.Apikey)
+	resp, err := client.Do(req)
+	// Check for errors
+	if err != nil {
+		log.Fatalln(err)
+	}
+	body, err := ioutil.ReadAll(resp.Body)
+	// Create Struct to store json and parse the response
+	var infos PrinterInfoJSON
+	json.Unmarshal(body, &infos)
+	return infos
+}
+
+// PrinterInfoJSON represents the JSON Response from this Octoprint API Endpoint
+type PrinterInfoJSON struct {
+	Sd struct {
+		Ready bool `json:"ready"`
+	} `json:"sd"`
+	Temperature struct {
+		Bed struct {
+			Actual float64 `json:"actual"`
+			Offset int     `json:"offset"`
+			Target float64 `json:"target"`
+		} `json:"bed"`
+		Tool0 struct {
+			Actual float64 `json:"actual"`
+			Offset int     `json:"offset"`
+			Target float64 `json:"target"`
+		} `json:"tool0"`
+	} `json:"temperature"`
+}
+
+func apiGetJobInfo() JobInfoJSON {
 	// Call API for job information
 	apiurl := "http://" + c.Octopi + "/api/job"
 	// Create Request with correct headers for authorization
@@ -21,12 +59,13 @@ func apiGetJobInfo() JobInfoJson {
 	}
 	body, err := ioutil.ReadAll(resp.Body)
 	// Create Struct to store json and parse the response
-	var infos JobInfoJson
+	var infos JobInfoJSON
 	json.Unmarshal(body, &infos)
 	return infos
 }
 
-type JobInfoJson struct {
+// JobInfoJSON represents the JSON Response from this Octoprint API Endpoint
+type JobInfoJSON struct {
 	Job struct {
 		AveragePrintTime   interface{} `json:"averagePrintTime"`
 		EstimatedPrintTime float64     `json:"estimatedPrintTime"`
