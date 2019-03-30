@@ -22,8 +22,8 @@ Metrics are exposed under :9112/metrics and start with the prefix "octoprint" . 
     - Run ``` ansible-playbook ./ansible-deploy.yaml ```  (tested on CentOS and Raspbian)
     - Add scrape Job to your prometheus server and you're done
 2. Docker
-    - Clone the Repo and build the provided Dockerfile with 'docker build -t octoprint-exporter .'
-    - Deploy your Container with 'docker run --net=host octoprint-exporter'
+    - Clone the Repo and build the provided Dockerfile with ```docker build -t octoprint-exporter .```
+    - Deploy your Container with ```docker run --net=host octoprint-exporter```
     - The Container is build with Alpine Linux and is just 17.5MB in size 
 3. Do it yourself
     - Copy the binary and the example-config file to your remote server
