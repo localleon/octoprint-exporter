@@ -16,5 +16,5 @@ COPY --from=build /go/bin/octoprint-exporter /bin/octoprint-exporter
 # Copy config file from current directory
 COPY ./config.yaml /bin/config.yaml
 # Set Entrypoint, Flags and Port
-EXPOSE 9111
+EXPOSE 9112
 CMD ["/bin/octoprint-exporter","--config=/bin/config.yaml"]
