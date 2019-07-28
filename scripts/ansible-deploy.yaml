@@ -5,9 +5,9 @@
   become_method: sudo
 
   vars:
-    build_path: ./octoprint-exporter-linux-arm.bin
-    service_path: ./octoprint-exporter.service
-    config_path: ./config.yaml
+    build_path: ./bin/octoprint-exporter-linux-arm.bin
+    service_path: ./scripts/octoprint-exporter.service
+    config_path: ./configs/config.yaml
 
   tasks:
     - name: Creates directory
