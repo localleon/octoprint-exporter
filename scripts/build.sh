@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-package=$1
+package="."
 if [[ -z "$package" ]]; then
   echo "usage: $0 <package-name>"
   exit 1
@@ -15,7 +15,7 @@ do
     platform_split=(${platform//\// })
     GOOS=${platform_split[0]}
     GOARCH=${platform_split[1]}
-    output_name=$package_name'-'$GOOS'-'$GOARCH
+    output_name='octoprint-exporter-'$GOOS'-'$GOARCH
     if [ $GOOS = "windows" ]; then
         output_name+='.exe'
     else 
@@ -28,3 +28,6 @@ do
         exit 1
     fi
 done
+
+# Build Dockerfile 
+docker build -t "octoprint-exporter" -f scripts/Dockerfile .
