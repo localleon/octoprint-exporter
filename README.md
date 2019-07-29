@@ -1,7 +1,8 @@
 ![logo](https://user-images.githubusercontent.com/28186014/62043602-10ea1b00-b201-11e9-8749-dd03bd9e0822.png)
-# Octoprint-Exporter
-> Simple GoLang-Application that exports Octoprint-Metrics into the Prometheus Format
-> This projects tries to create a simple way to integrate your 3D-Printer into your existing Prometheus Monitoring System.It present's a standardized Prometheus Exporter to query. 
+# Octoprint-Exporter for Prometheus
+**Simple GoLang-Application that exports Octoprint-Metrics into the Prometheus Format**
+
+This projects tries to create a simple way to integrate your 3D-Printer into your existing Prometheus Monitoring System.It present's a standardized Prometheus Exporter to query. 
 
 ---
 
