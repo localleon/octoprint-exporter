@@ -16,7 +16,7 @@ Metrics are exposed under :9112/metrics and start with the prefix "octoprint" . 
 - 3 == Printing
 
 ## Building
-Use the provided build.sh with './scripts/build.sh ./octo-export' or build yourself with 'go build ./octo-exporter -o $BINNAME'
+Use the provided build.sh with './scripts/build.sh' or build yourself with 'go build . -o $BINNAME'
 
 ## Deploying 
 1. Ansible 

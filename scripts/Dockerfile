@@ -5,7 +5,7 @@ RUN apk add git
 # Set the Current Working Directory inside the container
 WORKDIR $GOPATH/src/github.com/localleon/octoprint-exporter
 # Copy everything from the current directory to the PWD(Present Working Directory) inside the container
-COPY ./octo-export/ .
+COPY . .
 # Download all the dependencies and Install the package in the Builder
 RUN go get -d -v ./... && go install -v ./...
 
