@@ -15,3 +15,5 @@
 *.retry
 
 configs/config.yaml
+
+assets/logo.png
