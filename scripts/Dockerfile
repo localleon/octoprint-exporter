@@ -13,8 +13,6 @@ RUN go get -d -v ./... && go install -v ./...
 FROM alpine:latest
 # Copy binarys from builder
 COPY --from=build /go/bin/octoprint-exporter /bin/octoprint-exporter
-# Copy config file from current directory
-COPY ./configs/config.yaml /bin/config.yaml
 # Set Entrypoint, Flags and Port
 EXPOSE 9112
 CMD ["/bin/octoprint-exporter","--config=/bin/config.yaml"]

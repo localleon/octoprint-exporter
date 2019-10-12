@@ -4,6 +4,8 @@
 
 This projects tries to create a simple way to integrate your 3D-Printer into your existing Prometheus Monitoring System.It present's a standardized Prometheus Exporter to query. 
 
+To quickly run this application use the docker container `localleon/octoprint-exporter` on hub.docker.com.  Adjust the `configs/config-example.yaml` file to your needs and run the container with it `docker run --net=host -v "$(pwd)"/config.yaml:/bin/config.yaml sam:latest`.
+
 ---
 
 ## Metrics
@@ -34,7 +36,9 @@ Currently tested on:
 ## Building
 Use the provided build.sh with './scripts/build.sh' or build yourself with 'go build . -o $BINNAME'
 
-## Deploying 
+### Deploying binarys
+You need to provide all binarys with your own config file. An example of the config file can be found in `configs/config-example.yaml`. Use the flag `--config` to specify the path to the file.
+
 1. Ansible 
     - Run build.sh to create binarys or download them from the releases page
     - Change host and username in ansible-deploy.yaml (Ansible-Playbook)
