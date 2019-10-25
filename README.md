@@ -4,7 +4,7 @@
 
 This projects tries to create a simple way to integrate your 3D-Printer into your existing Prometheus Monitoring System.It present's a standardized Prometheus Exporter to query. 
 
-To quickly run this application use the docker container `localleon/octoprint-exporter` on hub.docker.com.  Adjust the `configs/config-example.yaml` file to your needs and run the container with it `docker run --net=host -v "$(pwd)"/config.yaml:/bin/config.yaml sam:latest`.
+To quickly run this application use the docker container `localleon/octoprint-exporter` on hub.docker.com.  Adjust the `configs/config-example.yaml` file to your needs and run the container with it `docker run --net=host -v "$(pwd)"/config.yaml:/bin/config.yaml localleon/octoprint-exporter:latest`.
 
 ---
 

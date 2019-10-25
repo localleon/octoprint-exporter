@@ -1,4 +1,4 @@
 listen : ":9112"     # Port for the http Server to listen on 
 probetime: 15        # How often the Metrics are updated
 apikey : "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" # Your Octoprint API Key found in the WebInterface
-octopi : "XXX.XXX.XXX.XXX"
+octopi : "XXX.XXX.XXX.XXX"  # IP-Address of the Octoprint Instance you want to query
